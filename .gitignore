@@ -1,0 +1,54 @@
+# OS / editor clutter
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.log
+*.swp
+*.tmp
+*.temp
+*.iml
+.idea/
+.vscode/
+
+# Python / backend
+backend/.env
+backend/.venv/
+backend/venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/*.pyc
+backend/*.pyo
+backend/*.pyd
+backend/.pytest_cache/
+backend/.mypy_cache/
+backend/.ruff_cache/
+backend/conversations.json
+backend/messages.json
+backend/users.json
+
+# Flutter / Dart / frontend
+frontend/.dart_tool/
+frontend/.flutter-plugins-dependencies
+frontend/.packages
+frontend/build/
+frontend/.idea/
+frontend/android/.gradle/
+frontend/android/local.properties
+frontend/android/app/debug/
+frontend/android/app/profile/
+frontend/android/app/release/
+frontend/ios/Flutter/ephemeral/
+frontend/ios/Flutter/.last_build_id
+frontend/ios/Pods/
+frontend/macos/Flutter/ephemeral/
+frontend/linux/flutter/ephemeral/
+frontend/windows/flutter/ephemeral/
+frontend/.fvm/
+frontend/.dart_tool/package_config.json
+frontend/.dart_tool/package_graph.json
+frontend/.dart_tool/version
+
+# Generated coverage / reports
+coverage/
+.coverage
+.coverage.*
