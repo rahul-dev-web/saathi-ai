@@ -37,50 +37,52 @@ class HomeNotifier extends StateNotifier<HomeState> {
   }
 
   Future<void> loadConversations() async {
-  state = state.copyWith(isLoading: true);
+    state = state.copyWith(isLoading: true);
 
-  try {
-    final response = await _apiClient.get(
-      '/chat/conversations',
-    );
+    try {
+      final response = await _apiClient.get(
+        '/chat/conversations',
+      );
 
-    final convs = List<Map<String, dynamic>>.from(
-      response.data['conversations'] as List? ?? [],
-    );
+      final convs = List<Map<String, dynamic>>.from(
+        response.data['conversations'] as List? ?? [],
+      );
 
-    state = state.copyWith(
-      isLoading: false,
-      conversations: convs,
-    );
-  } catch (e) {
-    state = state.copyWith(
-      isLoading: false,
-      error: e.toString(),
-    );
+      state = state.copyWith(
+        isLoading: false,
+        conversations: convs,
+      );
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+      );
+    }
   }
-}
 
-  Future<void> createConversation(String title) async {
-  try {
-    final response = await _apiClient.post(
-      '/chat/conversation',
-      data: {
-        'title': title,
-      },
-    );
+  Future<Map<String, dynamic>?> createConversation(String title) async {
+    try {
+      final response = await _apiClient.post(
+        '/chat/conversation',
+        data: {
+          'title': title,
+        },
+      );
 
-    final newConv = Map<String, dynamic>.from(response.data);
+      final newConv = Map<String, dynamic>.from(response.data);
 
-    state = state.copyWith(
-      conversations: [
-        ...state.conversations,
-        newConv,
-      ],
-    );
-  } catch (e) {
-    state = state.copyWith(
-      error: e.toString(),
-    );
+      state = state.copyWith(
+        conversations: [
+          ...state.conversations,
+          newConv,
+        ],
+      );
+      return newConv;
+    } catch (e) {
+      state = state.copyWith(
+        error: e.toString(),
+      );
+      return null;
+    }
   }
- }
 }
