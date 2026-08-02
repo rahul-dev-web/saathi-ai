@@ -13,7 +13,7 @@ dependencies:
 
   # State Management
   riverpod: ^2.5.0
-  flutter_riverpod: ^2.5.0
+  flutter_riverpod: ^2.6.1
 
   # HTTP Client
   dio: ^5.4.0
@@ -39,6 +39,15 @@ dependencies:
   # Permissions
   permission_handler: ^13.0.0
   
+    # Android Device Control
+  device_info_plus: ^9.0.0
+  battery_plus: ^7.0.0
+  connectivity_plus: ^5.0.0
+  android_intent_plus: ^4.0.0
+  flutter_phone_direct_caller: ^2.1.0
+  flutter_sms: ^2.3.3
+  vibration: ^1.8.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

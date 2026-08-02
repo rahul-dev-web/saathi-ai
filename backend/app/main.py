@@ -1,7 +1,10 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.v1 import auth, user, chat, voice
 from app.core.config import settings
+from app.database import engine, Base
 
 # Create FastAPI app
 app = FastAPI(
@@ -68,8 +71,10 @@ async def check_voice():
 
 if __name__ == "__main__":
     import uvicorn
+
+    port = int(os.environ.get("PORT", settings.API_PORT))
     uvicorn.run(
         app,
-        host=settings.API_HOST,
-        port=settings.API_PORT
+        host="0.0.0.0",
+        port=port
     )

@@ -1,13 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import '../../../auth/providers/auth_provider.dart';
 import '../../providers/home_provider.dart';
 
-class HomeScreen extends ConsumerWidget {
+Future<void> requestDevicePermissions() async {
+  if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
+    return;
+  }
+
+  await [
+    Permission.contacts,
+    Permission.phone,
+    Permission.sms,
+    Permission.storage,
+  ].request();
+}
+
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      requestDevicePermissions();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final homeState = ref.watch(homeProvider);
 
     return Scaffold(
@@ -48,6 +77,7 @@ class HomeScreen extends ConsumerWidget {
             : RefreshIndicator(
                 onRefresh: () async {
                   await ref.read(homeProvider.notifier).loadConversations();
+                  await requestDevicePermissions();
                 },
                 child: ListView(
                   padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
@@ -107,6 +137,12 @@ class HomeScreen extends ConsumerWidget {
                           ),
                         ),
                       ],
+                    ),
+                    const SizedBox(height: 12),
+                    _DeviceControlCard(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/device-control');
+                      },
                     ),
                     const SizedBox(height: 24),
                     Row(
@@ -312,6 +348,69 @@ class _LaunchCard extends StatelessWidget {
                 ),
               ],
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _DeviceControlCard extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const _DeviceControlCard({
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(22),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(22),
+          color: const Color(0xFF151A22),
+          border: Border.all(color: const Color(0xFF3B455D)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: const Color(0xFF3B455D),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: const Icon(Icons.smartphone, color: Colors.white),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Device Control',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Battery, storage, WiFi, Bluetooth, contacts, SMS and app actions.',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.white70,
+                          height: 1.3,
+                        ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 10),
+            const Icon(Icons.chevron_right, color: Colors.white54),
           ],
         ),
       ),
