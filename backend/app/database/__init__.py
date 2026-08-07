@@ -1,1 +1,1 @@
-from app.db import Base, SessionLocal, engine, get_db
+from ..db import engine, Base,SessionLocal,get_db

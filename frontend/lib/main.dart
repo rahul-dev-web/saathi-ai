@@ -9,13 +9,12 @@ import 'features/voice/presentation/screens/voice_chat_screen.dart';
 import 'features/profile/presentation/screens/profile_screen.dart';
 import 'features/settings/presentation/screens/settings_screen.dart';
 import 'features/device/presentation/screens/device_control_screen.dart';
-
 void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,17 +35,15 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginScreen(),
         '/signup': (context) => SignupScreen(),
         '/home': (context) => const HomeScreen(),
+        '/device-control': (context) => const DeviceControlScreen(),
         '/chat': (context) {
-          final conversationId =
-              ModalRoute.of(context)?.settings.arguments as String?;
+          final conversationId = ModalRoute.of(context)?.settings.arguments as String?;
           return ChatScreen(conversationId: conversationId ?? 'unknown');
         },
         '/voice-chat': (context) {
-          final conversationId =
-              ModalRoute.of(context)?.settings.arguments as String?;
+          final conversationId = ModalRoute.of(context)?.settings.arguments as String?;
           return VoiceChatScreen(conversationId: conversationId ?? 'unknown');
         },
-        '/device-control': (context) => const DeviceControlScreen(),
         '/profile': (context) => const ProfileScreen(),
         '/settings': (context) => const SettingsScreen(),
       },

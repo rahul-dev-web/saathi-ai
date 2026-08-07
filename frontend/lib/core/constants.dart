@@ -1,6 +1,6 @@
 class AppConstants {
   // API
-  static const String apiBaseUrl = 'http://127.0.0.1:8000/api/v1';
+  static const String apiBaseUrl = 'https://saathi-ai-0ck4.onrender.com/api/v1';
   static const Duration apiTimeout = Duration(seconds: 30);
   
   // Storage Keys

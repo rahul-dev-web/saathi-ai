@@ -45,7 +45,6 @@ dependencies:
   connectivity_plus: ^5.0.0
   android_intent_plus: ^4.0.0
   flutter_phone_direct_caller: ^2.1.0
-  flutter_sms: ^2.3.3
   vibration: ^1.8.0
 
 dev_dependencies:
